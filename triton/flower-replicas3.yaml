@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flower
+  labels:
+    app: flower
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: flower
+  template:
+    metadata:
+      labels:
+        app: flower
+    spec:
+      volumes:
+        - name: models
+          nfs:
+            server: 172.16.101.116
+            path: /home/inference-experiments/triton
+            readOnly: false
+      containers:
+        - name: flower
+          image: "nvcr.io/nvidia/tritonserver:20.12-py3"
+          ports:
+            - containerPort: 8000
+              name: http-triton
+            - containerPort: 8001
+              name: grpc-triton
+            - containerPort: 8002
+              name: metrics-triton
+          volumeMounts:
+            - mountPath: /models
+              name: models
+          command: ["/bin/sh", "-c"]
+          args: ["cd /models && /opt/tritonserver/bin/tritonserver --model-repository=/models --allow-gpu-metrics=false --strict-model-config=false"]
+          resources:
+            limits:
+              nvidia.com/mig-1g.5gb: 1

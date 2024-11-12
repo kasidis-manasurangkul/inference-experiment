@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: triton-server
+  namespace: undergrad-kmanasu
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: triton-server
+  template:
+    metadata:
+      labels:
+        app: triton-server
+    spec:
+      containers:
+        - name: triton-server
+          image: nvcr.io/nvidia/tritonserver:23.02-py3
+          args: ["tritonserver", "--model-repository=/models"]
+          volumeMounts:
+            - name: model-volume
+              mountPath: /models
+          ports:
+            - containerPort: 8000  # gRPC
+            - containerPort: 8001  # HTTP
+            - containerPort: 8002  # Metrics
+      volumes:
+        - name: model-volume
+          hostPath:
+            path: /home/kmanasu/inference-experiment/triton/models  # Host path on the node
+            type: Directory

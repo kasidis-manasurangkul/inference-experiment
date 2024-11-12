@@ -1,0 +1,88 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: code-server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: code-server
+  template:
+    metadata:
+      labels:
+        app: code-server
+    spec:
+      containers:
+      - name: code-server
+        image: codercom/code-server:latest
+        ports:
+        - containerPort: 8080
+        env:
+        - name: PASSWORD
+          value: "K"
+        - name: CUDA_VISIBLE_DEVICES
+          value: "2,3,4,5,6,7" # Specify which GPUs to use
+        resources:
+          limits:
+            nvidia.com/gpu: 6 # Request 6 GPUs
+        volumeMounts:
+        - name: code-server-volume
+          mountPath: /home/coder/contact-center-research # Path inside the container where the host directory will be mounted
+        - name: ssh-key-volume
+          mountPath: /home/coder/.ssh # Mount SSH key from the host
+        securityContext:
+          runAsUser: 0  # Run the container as root
+          runAsGroup: 0 # Run the container as root group
+        lifecycle:
+          postStart:
+            exec:
+              command:
+                - "/bin/bash"
+                - "-c"
+                - |
+                  # Ensure Python and pip are installed
+                  apt-get update && apt-get install -y python3 python3-pip python3-venv
+                  
+                  # Set permissions for the SSH key
+                  chmod 700 /home/coder/.ssh
+                  chmod 600 /home/coder/.ssh/id_ed25519
+                  chmod 600 /home/coder/.ssh/id_ed25519.pub
+
+                  # Add GitHub to known hosts to avoid authenticity check
+                  ssh-keyscan -t ed25519 github.com >> /home/coder/.ssh/known_hosts
+
+                  # Create a virtual environment in /home/coder/venv
+                  python3 -m venv /home/coder/venv
+
+                  # Activate the virtual environment
+                  source /home/coder/venv/bin/activate
+
+                  # Install libraries from libraries.txt if it exists
+                  if [ -f /home/coder/contact-center-research/libraries.txt ]; then
+                    /home/coder/venv/bin/pip install -r /home/coder/contact-center-research/libraries.txt
+                  fi
+
+                  echo "Virtual environment created, activated, and libraries installed."
+      volumes:
+      - name: code-server-volume
+        hostPath:
+          path: /home/kmanasu/contact-center-research/ # Path on the APEX server where the files are stored
+          type: Directory
+      - name: ssh-key-volume
+        hostPath:
+          path: /home/kmanasu/.ssh # Path on the APEX server where the SSH keys are stored
+          type: Directory
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: code-server-service
+spec:
+  type: NodePort
+  selector:
+    app: code-server
+  ports:
+  - port: 8080
+    targetPort: 8080
+    nodePort: 30080 # You can change this to any port between 30000-32767

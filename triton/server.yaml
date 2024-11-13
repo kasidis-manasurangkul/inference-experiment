@@ -15,11 +15,13 @@ spec:
     spec:
       containers:
         - name: triton-server
-          image: nvcr.io/nvidia/tritonserver:23.02-py3
+          image: kmanasu/triton-server:latest
           args: ["tritonserver", "--model-repository=/models"]
           volumeMounts:
             - name: model-volume
               mountPath: /models
+            - name: shm-volume
+              mountPath: /dev/shm  # Mounting shared memory here
           ports:
             - containerPort: 8000  # gRPC
             - containerPort: 8001  # HTTP
@@ -29,3 +31,7 @@ spec:
           hostPath:
             path: /home/kmanasu/inference-experiment/triton/models  # Host path on the node
             type: Directory
+        - name: shm-volume
+          emptyDir:
+            medium: "Memory"  # Use RAM for /dev/shm
+            sizeLimit: "1Gi"  # Increase shared memory size, e.g., to 1Gi

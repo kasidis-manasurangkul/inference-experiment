@@ -1,31 +1,39 @@
-import tritonclient.http as httpclient
+import sys
 import numpy as np
-from transformers import AutoTokenizer
+import tritonclient.http as httpclient
+from tritonclient.utils import np_to_triton_dtype
 
-# Set up the client for Triton
-node_ip = "<node-ip>"  # Replace with your actual node IP
-url = f"{node_ip}:30081"  # HTTP endpoint of Triton server service
-client = httpclient.InferenceServerClient(url=url)
+model_name = "llama-3.1-8B"  # Name of the deployed LLaMA model
+text_input = "How would you describe the taste of a rainbow to someone who has never seen one?"  # Text input for the model
+url = "localhost:8000"  # Triton server URL
 
-# Initialize the tokenizer for LLaMA
-model_name = "meta-llama/Llama-3.1-8B-Instruct"  # Use your specific model name
-tokenizer = AutoTokenizer.from_pretrained(model_name)
+# Configure client connection to Triton
+with httpclient.InferenceServerClient(url, connection_timeout= 600, network_timeout= 600) as client:
+    # Prepare input tensor
+    input_text_data = np.array([text_input], dtype=object)  # Convert text to array for Triton
+    inputs = [
+        httpclient.InferInput("text_input", input_text_data.shape, "BYTES")  # Define model input
+    ]
+    inputs[0].set_data_from_numpy(input_text_data)  # Set input data
 
-# Prepare text input
-text_input = "What is the capital of France?"  # Replace with any text input
-input_ids = tokenizer.encode(text_input, return_tensors="np").astype(np.int64)
+    # Define model output
+    outputs = [
+        httpclient.InferRequestedOutput("generated_text")  # Specify desired output tensor
+    ]
 
-# Create Triton input tensor
-inputs = httpclient.InferInput("input_ids", input_ids.shape, "INT64")
-inputs.set_data_from_numpy(input_ids)
+    # Perform inference request
+    response = client.infer(model_name, inputs, request_id="1", outputs=outputs, timeout=600)
 
-# Make an inference request to the model
-try:
-    response = client.infer(model_name="llama-3.1-8B", inputs=[inputs])
-    output_ids = response.as_numpy("output_ids")  # Adjust if your output name is different
+    # Extract response data
+    generated_text = response.as_numpy("generated_text")[0].decode("utf-8")
 
-    # Decode the output IDs back to text
-    output_text = tokenizer.decode(output_ids[0], skip_special_tokens=True)
-    print("Model output:", output_text)
-except Exception as e:
-    print("Error during inference:", e)
+    print(f"Input: {text_input}")
+    print(f"Generated Output: {generated_text}")
+
+    # Perform a basic check on the response
+    if not generated_text:
+        print("Error: No output generated from the model.")
+        sys.exit(1)
+
+    print("PASS: Inference completed successfully.")
+    sys.exit(0)

@@ -1,38 +1,39 @@
-import os
 import torch
 from transformers import AutoModelForCausalLM, AutoTokenizer
-import onnx
-
-# Define model name and export folder
-model_name = "meta-llama/Llama-3.1-8B-Instruct"
-export_folder = "llama3.1-8b-tensor-rt"
-export_path = os.path.join(export_folder, "llama_8b.onnx")
-
-# Create the folder if it doesn't exist
-os.makedirs(export_folder, exist_ok=True)
 
 # Load model and tokenizer
-model = AutoModelForCausalLM.from_pretrained(model_name)
-tokenizer = AutoTokenizer.from_pretrained(model_name)
+model_checkpoint = "meta-llama/Llama-3.1-8B-Instruct"
+model = AutoModelForCausalLM.from_pretrained(model_checkpoint)
+tokenizer = AutoTokenizer.from_pretrained(model_checkpoint)
+
+# Put the model in evaluation mode
+model.eval()
+
+# Define export path
+export_path = "onnx/model.onnx"
 
 # Example input for the model
 text = "Translate this sentence to Spanish."
 inputs = tokenizer(text, return_tensors="pt")
-input_ids = inputs["input_ids"]
 
-# Export the model to ONNX
+# Prepare inputs as a tuple
+input_ids = inputs["input_ids"]
+attention_mask = inputs["attention_mask"]
+input_tuple = (input_ids, attention_mask)
+
 torch.onnx.export(
     model,
-    input_ids,
+    input_tuple,
     export_path,
     export_params=True,
-    opset_version=14,
+    opset_version=14,  # Adjust if needed for compatibility
     do_constant_folding=True,
-    input_names=["input_ids"],
+    input_names=["input_ids", "attention_mask"],
     output_names=["logits"],
-    dynamic_axes={"input_ids": {0: "batch_size"}, "logits": {0: "batch_size"}}
+    dynamic_axes={
+        'input_ids': {0: 'batch_size', 1: 'sequence'},
+        'attention_mask': {0: 'batch_size', 1: 'sequence'},
+        'logits': {0: 'batch_size', 1: 'sequence'}
+    },
+    keep_initializers_as_inputs=False  # Embed initializers in the model
 )
-
-# Verify the ONNX model by directly using the file path
-onnx.checker.check_model(export_path)
-print("ONNX model exported and verified successfully to", export_path)

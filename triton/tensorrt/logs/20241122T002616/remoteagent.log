@@ -1,0 +1,13 @@
+2024-11-22 00:26:17.013 [info] 
+
+
+
+
+2024-11-22 00:26:22.080 [info] Extension host agent started.
+2024-11-22 00:26:29.053 [info] [192.168.22.208][90c61873][ManagementConnection] New connection established.
+2024-11-22 00:26:29.715 [info] [192.168.22.208][f6227d18][ExtensionHostConnection] New connection established.
+2024-11-22 00:26:30.012 [info] [192.168.22.208][f6227d18][ExtensionHostConnection] <734> Launched Extension Host Process.
+2024-11-22 00:26:34.745 [info] [192.168.22.208][90c61873][ManagementConnection] The client has disconnected gracefully, so the connection will be disposed.
+2024-11-22 00:26:35.514 [info] [192.168.22.208][55043deb][ManagementConnection] New connection established.
+2024-11-22 00:26:35.873 [info] [192.168.22.208][0d1f778b][ExtensionHostConnection] New connection established.
+2024-11-22 00:26:35.879 [info] [192.168.22.208][0d1f778b][ExtensionHostConnection] <1161> Launched Extension Host Process.

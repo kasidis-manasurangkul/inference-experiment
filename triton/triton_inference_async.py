@@ -15,7 +15,7 @@ MODEL_NAME = "llama-3-8b"
 NUM_SAMPLES = 1000
 
 # Maximum number of concurrent requests
-MAX_CONCURRENT_REQUESTS = 20  # Adjust based on your server's capacity
+MAX_CONCURRENT_REQUESTS = 2  # Adjust based on your server's capacity
 
 # Output JSON file
 OUTPUT_FILE = "inference_results.json"

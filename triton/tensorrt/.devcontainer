@@ -1,0 +1,27 @@
+{
+  "name": "Triton Dev Container",
+  "build": {
+    "dockerfile": "Dockerfile"
+  },
+  "workspaceFolder": "/workspace",
+  "mounts": [
+    "source=/home/kmanasu/inference-experiment/triton/tensorrt,target=/workspace,type=bind"
+  ],
+  "settings": {
+    "terminal.integrated.defaultProfile.linux": "bash"
+  },
+  "extensions": [
+    "ms-python.python",           
+    "ms-toolsai.jupyter",        
+    "ms-vscode.cpptools",        
+    "ms-vscode-remote.remote-containers"
+  ],
+  "remoteUser": "root",
+  "containerEnv": {
+    "WORKSPACE_DIR": "/workspace",
+    "ENGINE_DIR": "/workspace/engines",
+    "HF_CACHE_DIR": "/workspace/huggingface",
+    "MODEL_REPO_DIR": "/workspace/models",
+    "HF_HOME": "/workspace/huggingface"
+  }
+}

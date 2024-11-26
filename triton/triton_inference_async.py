@@ -6,7 +6,7 @@ from datasets import load_dataset
 from tqdm.asyncio import tqdm_asyncio
 
 # Triton server URL
-TRITON_SERVER_URL = "http://localhost:8000"
+TRITON_SERVER_URL = "http://localhost:8080"
 
 # Model name
 MODEL_NAME = "llama-3-8b"

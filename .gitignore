@@ -5,3 +5,6 @@ triton/tensorrtllm_backend
 triton/engines
 triton/tensorrt/models
 triton/tensorrt/engines
+tensorrt/TensorRT-LLM
+tensorrt/tllm_checkpoint_4gpu_tp2_pp2
+tensorrt/temp

@@ -1,2 +1,0 @@
-Average Tokens per second: 0.0000
-Average Time per example: 0.0000 sec

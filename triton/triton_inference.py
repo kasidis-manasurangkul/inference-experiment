@@ -5,7 +5,7 @@ from tritonclient.utils import np_to_triton_dtype
 
 model_name = "llama-3.1-8B"  # Name of the deployed LLaMA model
 text_input = "How would you describe the taste of a rainbow to someone who has never seen one?"  # Text input for the model
-url = "localhost:8080"  # Triton server URL
+url = "localhost:8000"  # Triton server URL
 
 # Configure client connection to Triton
 with httpclient.InferenceServerClient(url, connection_timeout= 600, network_timeout= 600) as client:

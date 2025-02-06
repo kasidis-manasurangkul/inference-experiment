@@ -3,8 +3,13 @@ triton/models-onnx
 triton/llama3.1-8b-tensor-rt
 triton/tensorrtllm_backend
 triton/engines
+triton/tmp
 triton/tensorrt/models
 triton/tensorrt/engines
+triton/tensorrt/checkpoints
 tensorrt/TensorRT-LLM
 tensorrt/tllm_checkpoint_4gpu_tp2_pp2
-tensorrt/temp
+tensorrt/tmp
+deepseek/KB
+deepseek/processed_KB
+mangobost/

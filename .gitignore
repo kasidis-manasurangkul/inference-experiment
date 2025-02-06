@@ -8,8 +8,10 @@ triton/tensorrt/models
 triton/tensorrt/engines
 triton/tensorrt/checkpoints
 tensorrt/TensorRT-LLM
+triton/tensorrt/TensorRT-LLM
 tensorrt/tllm_checkpoint_4gpu_tp2_pp2
 tensorrt/tmp
 deepseek/KB
 deepseek/processed_KB
 mangobost/
+max/max

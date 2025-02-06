@@ -1,0 +1,144 @@
+TTFT: 0.013585s
+Total Requests: 10
+Total Time for Requests: 15.08s
+Average Request Time: 1.508311s
+Average Tokens per Second: 193.00
+
+
+max batch 2048
+Total Requests: 1000
+Total Time for Requests: 1639.99s
+Average Request Time: 1.639995s
+Average Tokens per Second: 192.26
+
+
+max batch default
+Total Requests: 1000
+Total Time for Requests: 1634.20s
+Average Request Time: 1.634200s
+Average Tokens per Second: 192.94
+
+
+{
+  "total_time_seconds": 1.34,
+  "throughput_rps": 7.461,
+  "average_response_time_seconds": 0.682,
+  "average_ttft_seconds": 0,
+  "first_token_time_seconds": 0.097,
+  "total_tokens": 903,
+  "tokens_per_second": 673.724,
+  "average_tokens_per_response": 90.3,
+  "tokenizer_used": "Qwen2TokenizerFast"
+}
+
+
+{
+  "total_time_seconds": 81.808,
+  "throughput_rps": 12.224,
+  "average_response_time_seconds": 38.068,
+  "average_ttft_seconds": 0,
+  "first_token_time_seconds": null,
+  "total_tokens": 101141,
+  "tokens_per_second": 1236.327,
+  "average_tokens_per_response": 101.141,
+  "tokenizer_used": "Qwen2TokenizerFast"
+}
+
+
+orchrestra
+{
+  "total_time_seconds": 23.707,
+  "throughput_rps": 42.182,
+  "average_response_time_seconds": 10.547,
+  "average_ttft_seconds": 0,
+  "first_token_time_seconds": null,
+  "total_tokens": 31278,
+  "tokens_per_second": 1319.368,
+  "average_tokens_per_response": 31.278,
+  "tokenizer_used": "Qwen2TokenizerFast"
+}
+
+{
+  "total_time_seconds": 17.089,
+  "throughput_rps": 58.518,
+  "average_response_time_seconds": 7.811,
+  "average_ttft_seconds": 0,
+  "first_token_time_seconds": null,
+  "total_tokens": 31355,
+  "tokens_per_second": 1834.827,
+  "average_tokens_per_response": 31.355,
+  "tokenizer_used": "Qwen2TokenizerFast"
+}
+
+{
+  "total_time_seconds": 7.546,
+  "throughput_rps": 132.513,
+  "average_response_time_seconds": 3.671,
+  "average_ttft_seconds": 0,
+  "first_token_time_seconds": 0.0038,
+  "total_tokens": 31466,
+  "tokens_per_second": 4169.655,
+  "average_tokens_per_response": 31.466,
+  "tokenizer_used": "Qwen2TokenizerFast"
+}
+
+{
+  "total_time_seconds": 118.012,
+  "throughput_rps": 8.474,
+  "average_response_time_seconds": 52.153,
+  "average_ttft_seconds": 0.024368,
+  "first_token_time_seconds": null,
+  "total_tokens": 27021,
+  "tokens_per_second": 228.969,
+  "average_tokens_per_response": 27.021,
+  "tokenizer_used": "Qwen2TokenizerFast"
+}
+
+{
+  "total_time_seconds": 114.189,
+  "throughput_rps": 8.757,
+  "average_response_time_seconds": 51.953,
+  "average_ttft_seconds": 0,
+  "first_token_time_seconds": null,
+  "total_tokens": 26903,
+  "tokens_per_second": 235.602,
+  "average_tokens_per_response": 26.903,
+  "tokenizer_used": "Qwen2TokenizerFast"
+}
+
+{
+  "total_time_seconds": 33.693,
+  "throughput_rps": 29.68,
+  "average_response_time_seconds": 17.514,
+  "average_ttft_seconds": 0.021077,
+  "first_token_time_seconds": null,
+  "total_tokens": 27063,
+  "tokens_per_second": 803.231,
+  "average_tokens_per_response": 27.063,
+  "tokenizer_used": "Qwen2TokenizerFast"
+}
+
+llam3.3 70b
+{
+  "total_time_seconds": 59.213,
+  "throughput_rps": 16.888,
+  "average_response_time_seconds": 36.904,
+  "average_ttft_seconds": 0,
+  "first_token_time_seconds": null,
+  "total_tokens": 21368,
+  "tokens_per_second": 360.866,
+  "average_tokens_per_response": 21.368,
+  "tokenizer_used": "PreTrainedTokenizerFast"
+}
+
+{
+  "total_time_seconds": 22.446,
+  "throughput_rps": 44.552,
+  "average_response_time_seconds": 11.027,
+  "average_ttft_seconds": 0,
+  "first_token_time_seconds": null,
+  "total_tokens": 18708,
+  "tokens_per_second": 833.481,
+  "average_tokens_per_response": 18.708,
+  "tokenizer_used": "PreTrainedTokenizerFast"
+}

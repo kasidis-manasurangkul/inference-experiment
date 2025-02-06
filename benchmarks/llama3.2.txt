@@ -1,0 +1,114 @@
+VLLM llama3.2 1b instruct
+t/s
+{
+  "total_requests": 2000,
+  "ttft": 0.00588,
+  "total_elapsed_seconds": 26.264,
+  "average_latency_seconds": 0.413,
+  "total_tokens": 108639,
+  "tokens_per_second": 4136.381
+}
+t/s/u
+{
+  "total_requests": 1000,
+  "ttft": 0.01311,
+  "total_elapsed_seconds": 171.884,
+  "average_latency_seconds": 0.171,
+  "total_tokens": 37416,
+  "tokens_per_second": 217.682
+}
+
+Triton Server / Tensorrt-LLM llama3.2 1b instruct
+t/s
+{
+  "total_requests": 2000,
+  "ttft": 0.00591,
+  "total_elapsed_seconds": 32.99,
+  "average_latency_seconds": 0.518,
+  "total_tokens": 86934,
+  "tokens_per_second": 2635.179
+}
+t/s/u
+{
+  "total_requests": 1000,
+  "ttft": 0.00128,
+  "total_elapsed_seconds": 97.759,
+  "average_latency_seconds": 0.097,
+  "total_tokens": 28374,
+  "tokens_per_second": 290.244
+}   
+
+
+With max_batch_size 256 t/s
+tensorllm
+{
+  "total_requests": 2000,
+  "ttft": 0.004686,
+  "total_elapsed_seconds": 13.668,
+  "average_latency_seconds": 1.551,
+  "total_tokens": 88210,
+  "tokens_per_second": 6453.675
+}
+{
+  "total_requests": 4000,
+  "total_elapsed_seconds": 46.014,
+  "average_latency_seconds": 2.592,
+  "total_tokens": 361561,
+  "tokens_per_second": 7857.611
+}
+{
+  "total_requests": 4000,
+  "total_elapsed_seconds": 48.661,
+  "average_latency_seconds": 2.668,
+  "total_tokens": 371104,
+  "tokens_per_second": 7626.353
+}
+{
+  "total_requests": 4000,
+  "total_elapsed_seconds": 48.883,
+  "average_latency_seconds": 2.605,
+  "total_tokens": 363515,
+  "tokens_per_second": 7436.443
+}
+
+VLLM
+{
+  "total_requests": 2000,
+  "ttft": 0.005192,
+  "total_elapsed_seconds": 16.369,
+  "average_latency_seconds": 1.957,
+  "total_tokens": 104507,
+  "tokens_per_second": 6384.287
+}
+{
+  "total_requests": 4000,
+  "ttft": 0.006151,
+  "total_elapsed_seconds": 31.369,
+  "total_tokens": 207487,
+  "tokens_per_second": 6640.01
+}
+
+
+{
+  "total_requests": 4000,
+  "total_elapsed_seconds": 51.865,
+  "average_latency_seconds": 2.931,
+  "total_tokens": 384611,
+  "tokens_per_second": 7415.678
+}
+{
+  "total_requests": 4000,
+  "total_elapsed_seconds": 50.224,
+  "average_latency_seconds": 2.821,
+  "total_tokens": 359805,
+  "tokens_per_second": 7164.052
+}
+
+{
+  "total_requests": 4000,
+  "total_elapsed_seconds": 61.987,
+  "average_latency_seconds": 3.118,
+  "total_tokens": 428399,
+  "tokens_per_second": 6911.133
+}
+

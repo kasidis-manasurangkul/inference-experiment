@@ -1,0 +1,11 @@
+{
+  "total_time_seconds": 21.077,
+  "throughput_rps": 47.445,
+  "average_response_time_seconds": 10.918,
+  "average_ttft_seconds": 0,
+  "first_token_time_seconds": null,
+  "total_tokens": 1000,
+  "tokens_per_second": 47.445,
+  "average_tokens_per_response": 1.0,
+  "tokenizer_used": "Qwen2TokenizerFast"
+}

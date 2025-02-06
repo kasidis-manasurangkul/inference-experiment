@@ -10,7 +10,7 @@ set -e
 BASE_DIR="/home/kmanasu/inference-experiment/triton"
 
 # Hugging Face token (replace with your actual token)
-HF_TOKEN="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"
+HF_TOKEN="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"
 
 # Docker image
 DOCKER_IMAGE="nvcr.io/nvidia/tritonserver:24.08-trtllm-python-py3"

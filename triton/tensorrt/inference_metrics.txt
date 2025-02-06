@@ -1,0 +1,4 @@
+Total Requests: 1000
+Total Time for Requests: 1634.20s
+Average Request Time: 1.634200s
+Average Tokens per Second: 192.94

@@ -1,0 +1,11 @@
+{
+  "total_time_seconds": 26.038,
+  "throughput_rps": 76.81,
+  "average_response_time_seconds": 10.091,
+  "average_ttft_seconds": 0,
+  "first_token_time_seconds": null,
+  "total_tokens": 63384,
+  "tokens_per_second": 2434.255,
+  "average_tokens_per_response": 31.692,
+  "tokenizer_used": "PreTrainedTokenizerFast"
+}

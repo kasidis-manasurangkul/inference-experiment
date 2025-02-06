@@ -1,0 +1,8 @@
+{
+  "total_time_seconds": 27.66,
+  "throughput_rps": 36.153,
+  "average_response_time_seconds": 0.028,
+  "total_tokens": 1000,
+  "tokens_per_second": 36.153,
+  "average_tokens_per_response": 1.0
+}

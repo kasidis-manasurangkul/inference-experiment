@@ -1,1 +1,7 @@
-{}
+{
+  "total_requests": 100,
+  "total_elapsed_seconds": 151.936,
+  "average_latency_seconds": 117.333,
+  "total_tokens": 87672,
+  "tokens_per_second": 577.033
+}

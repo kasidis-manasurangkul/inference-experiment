@@ -13,11 +13,11 @@ from openai import AsyncOpenAI  # For async mode
 # Configuration
 VLLM_SERVER_URL = os.getenv("VLLM_SERVER_URL", "http://localhost:8000/v1")
 MODEL_NAME = os.getenv("MODEL_NAME", "meta-llama/Llama-3.2-1B-Instruct")
-NUM_SAMPLES = int(os.getenv("NUM_SAMPLES", 2000))
+NUM_SAMPLES = int(os.getenv("NUM_SAMPLES", 1000))
 OUTPUT_FILE = "result/llama3.2_1b_async.json"
 METRICS_FILE = "llama3.2_1b_inference_metrics_async.txt"
 MAX_TOKENS = 2048
-MAX_CONCURRENT_REQUESTS = 128
+MAX_CONCURRENT_REQUESTS = 2048
 RETRIES = 1
 
 # Ensure result folder

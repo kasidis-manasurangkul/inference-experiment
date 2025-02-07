@@ -112,3 +112,12 @@ VLLM
   "tokens_per_second": 6911.133
 }
 
+
+
+{
+  "total_requests": 2000,
+  "total_elapsed_seconds": 789.065,
+  "average_latency_seconds": 86.53,
+  "total_tokens": 918444,
+  "tokens_per_second": 1163.965
+}

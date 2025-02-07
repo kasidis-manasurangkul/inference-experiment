@@ -11,13 +11,13 @@ from openai import OpenAI  # For sync mode
 from openai import AsyncOpenAI  # For async mode
 
 # Configuration
-VLLM_SERVER_URL = os.getenv("VLLM_SERVER_URL", "https://0.0.0.0:8000/v1")
-MODEL_NAME = os.getenv("MODEL_NAME", "./deepseek_model")
+VLLM_SERVER_URL = os.getenv("VLLM_SERVER_URL", "http://localhost:8000/v1")
+MODEL_NAME = os.getenv("MODEL_NAME", "/mnt/data01/models_down/DeepSeek-R1")
 NUM_SAMPLES = int(os.getenv("NUM_SAMPLES", 2000))
 OUTPUT_FILE = "result/test.json"
 METRICS_FILE = "inference_metrics.txt"
-MAX_TOKENS = 2048
-MAX_CONCURRENT_REQUESTS = 128
+MAX_TOKENS = 1
+MAX_CONCURRENT_REQUESTS = 1024
 RETRIES = 1
 
 # Ensure result folder

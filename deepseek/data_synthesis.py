@@ -22,10 +22,13 @@ OUTPUT_FILE = "result/synthesis_data.json"
 VALIDATED_OUTPUT_FILE = "result/synthesis_data_validated.json"
 METRICS_FILE = "inference_metrics.txt"
 
-MAX_TOKENS = 1024
+MAX_TOKENS = 2048  # Maximum tokens for generation
 MAX_CONCURRENT_REQUESTS = 800
 TEMPERATRUE = 0.9
 RETRIES = 3
+
+# Define maximum allowed token count for user prompt (KB text)
+MAX_USER_PROMPT_TOKENS = 20000 - MAX_TOKENS - 4000
 
 os.makedirs("result", exist_ok=True)
 
@@ -41,9 +44,12 @@ sync_client = OpenAI(
     base_url=VLLM_SERVER_URL
 )
 
+# ---------------------------------------------------------------------
+# Load tokenizer (changed to deepseek-ai/DeepSeek-R1)
+# ---------------------------------------------------------------------
 try:
     tokenizer = AutoTokenizer.from_pretrained(
-        "meta-llama/Llama-3.2-1B-Instruct",
+        "deepseek-ai/DeepSeek-R1",
         trust_remote_code=True
     )
 except Exception as e:
@@ -65,14 +71,12 @@ def load_validator_system_prompt():
     file_name = "validator_system_promt.txt"
     if not os.path.exists(file_name):
         print(f"[WARNING] validator prompt file not found: {file_name}")
-        return (
-            "You are a validator model. Please validate and clean up the conversation."
-        )  # fallback
+        return "You are a validator model. Please validate and clean up the conversation."  # fallback
     with open(file_name, "r", encoding="utf-8") as f:
         return f.read().strip()
 
 # ---------------------------------------------------------------------
-# 2) Remove chain-of-thought, remove markdown, remove emojis, etc.
+# 2) Remove chain-of-thought, markdown, emojis, etc.
 # ---------------------------------------------------------------------
 def remove_chain_of_thought(text: str) -> str:
     return re.sub(r"<think>.*?</think>", "", text, flags=re.DOTALL).strip()
@@ -99,7 +103,7 @@ def post_process_text(text: str) -> str:
 
         stripped = line.strip()
 
-        # Stop if "หมายเหตุ:" or "จุดเด่นของบทสนทนา:"
+        # Stop if "หมายเหตุ:" or "จุดเด่นของบทสนทนา:" appear
         if stripped.startswith("หมายเหตุ:") or stripped.startswith("จุดเด่นของบทสนทนา:"):
             stop_processing = True
             continue
@@ -122,6 +126,16 @@ def post_process_text(text: str) -> str:
             cleaned_lines.append(no_markdown_line)
 
     return "".join(cleaned_lines).rstrip()
+
+# ---------------------------------------------------------------------
+# 2.5) Helper function: Trim text to a maximum number of tokens
+# ---------------------------------------------------------------------
+def trim_text_to_max_tokens(text: str, max_tokens: int) -> str:
+    token_ids = tokenizer.encode(text, add_special_tokens=False)
+    if len(token_ids) > max_tokens:
+        token_ids = token_ids[:max_tokens]
+        return tokenizer.decode(token_ids)
+    return text
 
 # ---------------------------------------------------------------------
 # 3) Counting tokens, metrics
@@ -172,6 +186,8 @@ class MetricsTracker:
 # 4) Build prompts + load requests
 # ---------------------------------------------------------------------
 def build_prompt(kb_text):
+    # Trim kb_text if token count exceeds MAX_USER_PROMPT_TOKENS
+    kb_text = trim_text_to_max_tokens(kb_text, MAX_USER_PROMPT_TOKENS)
     return f"หัวข้อสนทนา:\n{kb_text}\nโปรดสร้างบทสนทนาจำลอง 1 ตัวอย่าง"
 
 def load_requests_data():
@@ -183,8 +199,8 @@ def load_requests_data():
 
     requests_data = []
     req_id = 0
-    # ตัวอย่าง: จำกัด kb_files[:10] หรือจะนำทั้งหมดก็ได้
-    for kb_file in kb_files[:100]:
+    # ตัวอย่าง: process a subset of files (adjust the slice as needed)
+    for kb_file in kb_files[:200]:
         kb_path = os.path.join(kb_folder, kb_file)
         with open(kb_path, "r", encoding="utf-8") as f:
             kb_text = f.read()
@@ -406,7 +422,6 @@ async def validate_responses_async(results):
         async def wrapped_validate_one(it=item, idx=i):
             async with sem:
                 return await validate_one(it, idx)
-
         tasks.append(asyncio.create_task(wrapped_validate_one()))
 
     # รอให้ tasks ทั้งหมดเสร็จ
@@ -414,7 +429,6 @@ async def validate_responses_async(results):
     validated_results = list(validated_list)
 
     return validated_results, metrics
-
 
 # ---------------------------------------------------------------------
 # 8) Save output

@@ -23,9 +23,9 @@ def process_text(raw_text: str) -> str:
     return text
 
 def main():
-    input_json = "result/synthesis_data_validated.json"     # <-- Your JSON input file here
-    output_txt = "result/output_conversations.txt"
-    
+    input_json = "result/synthesized-conversation-v1-0.json"     # <-- Your JSON input file here
+    output_txt = "result/synthesized-conversation-v1-0.txt"
+    entries_count = 0
     # Load the JSON
     with open(input_json, "r", encoding="utf-8") as f:
         data = json.load(f)
@@ -35,6 +35,7 @@ def main():
         out.write("=== Processed Conversations ===\n\n")
         
         for idx, item in enumerate(data):
+            entries_count += 1
             # Some items might have "input" or "output" or both
             # Also includes "kb_name" and "index" if present
             
@@ -43,7 +44,7 @@ def main():
             
             # We process the "input" and "output" fields if they exist
             raw_in = item.get("input", "")
-            raw_out = item.get("validated_output", "")
+            raw_out = item.get("output", "")
             
             # Transform them
             processed_input = process_text(raw_in)
@@ -56,7 +57,7 @@ def main():
             
             # Optionally, add a separator line
             out.write("="*70 + "\n\n")
-
+    print(f"Processing {entries_count}")
     print(f"Done. Processed text saved to '{output_txt}'.")
 
 if __name__ == "__main__":
